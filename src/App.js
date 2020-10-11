@@ -32,8 +32,10 @@ function App() {
     // setLists(lists.filter((notNeed, index) => index !== id));
   }
   const editList = (id) => {
-    if(input===''){
-      var text = lists.filter((list) => (list.id === id)).map(x=>x.text);
+    if(input!==''){
+      alert('Please clear text on input!!!');
+    } else {
+    var text = lists.filter((list) => (list.id === id)).map(x=>x.text);
       setInput(text);
       const newList = lists.filter((list) => (list.id !== id));
       setLists(newList);
