@@ -27,20 +27,31 @@ function App() {
   }
 
   const deleteList = (id) => {
-    const newList = lists.filter((line) => (line.id !== id));
+    const newList = lists.filter((list) => (list.id !== id));
     setLists(newList);
     // setLists(lists.filter((notNeed, index) => index !== id));
+  }
+  const editList = (id) => {
+    if(input===''){
+      var text = lists.filter((list) => (list.id === id)).map(x=>x.text);
+      setInput(text);
+      const newList = lists.filter((list) => (list.id !== id));
+      setLists(newList);
+    }
   }
 
   return(
     <div>
       {lists.map((list)=>
         <div key={list.id} >
-          <div>{list.text}</div>
+          <div>
+            {list.text}
+          </div>
+          <button onClick={() => editList(list.id)}>Edit</button>
           <button onClick={() => deleteList(list.id)} >X</button>
         </div>
       )}
-      <input  value={input} onChange={e => setInput(e.target.value)}></input>
+      <input  value={input} onChange={e => setInput(e.target.value)} id="inputBox"></input>
       <button onClick={add}>Add</button>
     </div>
   )
