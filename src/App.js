@@ -15,20 +15,18 @@ function App() {
       lists: [
         {text: '1', id: 4}
         ]
-      }
+      },
+      {number: 2,
+        lists: [
+          {text: 'f2s', id: 5}
+          ]
+        }
   ])
   const [input, setInput] = useState([
     {text: ''},
-    {text: ''}
-  ]);
-  const [initInput, setInitInput] = useState([
     {text: ''},
     {text: ''}
   ]);
-
-  useEffect(()=>{
-    console.log(tables);
-  },[tables]);
 
   const handleOnChange = (event, tableNumber) => {
     const items = [...input];
@@ -37,19 +35,18 @@ function App() {
   }
 
   const add = (tableNumber) => {
-    const tablesCopy = [...tables]
+    if(input[tableNumber].text === '') {
+      alert('Please input something to add into this table')
+    } else {
+      const tablesCopy = [...tables]
     tablesCopy[tableNumber] = {
       ...tablesCopy[tableNumber],
       lists: [...tables[tableNumber].lists, {text: input[tableNumber].text, id: shortid.generate()}]
     }
     setTables(tablesCopy);   
-    setInput(initInput);
-    // const inputData = {
-    //   text: input,
-    //   id: shortid.generate()
-    // }
-    // setTables([...tables, inputData]);   
-    // setInput('');
+    input[tableNumber].text = '' 
+    setInput(input);
+    }
   };
 
   const deleteList = (id) => {
