@@ -49,20 +49,27 @@ function App() {
     }
   };
 
-  const deleteList = (id) => {
-    const newList = tables.filter((lists) => (lists.id !== id));
-    setTables(newList);
-    // setTables(tables.filter((notNeed, index) => index !== id));
+  const deleteList = (tableNumber, listId) => {
+    const tablesCopy = [...tables];
+    tablesCopy[tableNumber].lists = tablesCopy[tableNumber].lists.filter((lists) => lists.id !== listId);
+    setTables(tablesCopy);
   }
-  const editList = (id) => {
-    if(input!==''){
-      alert('Please clear text on input!!!');
-    } else {
-    var text = tables.filter((list) => (list.id === id)).map(x=>x.text);
-      setInput(text);
-      const newList = tables.filter((list) => (list.id !== id));
-      setTables(newList);
-    }
+  const editList = (tableNumber, listId) => {
+    var text = tables[tableNumber].lists.filter((lists) => (lists.id === listId)).map(x=>x.text);
+    var text1 = text.join()
+    input[tableNumber].text = text1
+    setInput(input); // why if delete 3 next line can't render input[tableNumber].text? : finish function with reder??
+    const tablesCopy = [...tables];
+    tablesCopy[tableNumber].lists = tablesCopy[tableNumber].lists.filter((lists) => lists.id !== listId);
+    setTables(tablesCopy);
+    // if(input!==''){
+    //   alert('Please clear text on input!!!');
+    // } else {
+    // var text = tables.filter((list) => (list.id === id)).map(x=>x.text);
+    //   setInput(text);
+    //   const newList = tables.filter((list) => (list.id !== id));
+    //   setTables(newList);
+    // }
   }
 
   return(
@@ -75,8 +82,8 @@ function App() {
             <div>
                {list.text}
             </div>
-            <button onClick={() => editList(list.id)}>Edit</button>
-            <button onClick={() => deleteList(list.id)} >X</button>
+            <button onClick={() => editList(table.number, list.id)}>Edit</button>
+            <button onClick={() => deleteList(table.number, list.id)} >X</button>
             </div>
           )}
         <input key={table.number} value={input[table.number].text} onChange={e => handleOnChange(e, table.number)}></input>
