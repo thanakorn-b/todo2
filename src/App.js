@@ -11,7 +11,7 @@ function App() {
       {text: 'c', id: 3}
       ]
     },
-    {number: 10,
+    {number: 2,
       name: 'table2',
       lists: [
         {text: '1', id: 4}
@@ -50,8 +50,7 @@ function App() {
         // break;
       };
     }
-    setInput(input);
-    
+    setInput(input);  
   };
 
   const add = (tableNumber) => { //OK
@@ -130,19 +129,53 @@ function App() {
     }
   };
   
-  const deleteTable = () => {
-
+  const deleteTable = (tableNumber) => { //OK
+    const tablesCopy = [...tables];
+    for(var i in tablesCopy){
+      if(tablesCopy[i].number === tableNumber) {
+        tablesCopy.splice(i, 1);
+        input.splice(i, 1);
+      };
+    }
+    setTables(tablesCopy);
+    setInput(input);
   };
 
-  const editTable = () => {
+  // const editTable = () => {
 
-  };
+  // // };
+  let nextId = 20;
+  function generateId() {
+  const result = nextId;
+  nextId += 1;
+  return result;
+  }
+
+  const addTable = () => {
+    const tablesCopy = [...tables];
+    tablesCopy.push({
+        number: generateId(),
+        name: 'New Table',
+        lists: []
+        });
+    // tables.push({
+    //   number: eId,
+    //   name: 'New Table',
+    //   lists: []
+    //   });
+    setTables(tablesCopy);
+    const inputCopy = [...input];
+    inputCopy.push({number: generateId(), text: ''});
+    setInput(inputCopy);
+    // console.log(x)
+    // console.log(tables)
+  }
 
   const renderEverthing = () => {return(
     tables.map((table) => 
       <div key={table.number}>
         {table.name}
-        <button onClick={() => test(table.number)}>Edit</button>
+        {/* <button onClick={() => test(table.number)}>Edit</button> */}
         <button onClick={() => deleteTable(table.number)} >X</button>
         {table.lists.map((list) => 
           <div key={list.id} >
@@ -157,12 +190,12 @@ function App() {
       <button onClick={() => add(table.number)}>Add</button>
       </div>
       )
-    )
-    }
+    )}
 
   return(
     <div>
       {renderEverthing()}
+    <button onClick={addTable}>Add Table</button>
     </div>
   )
 
