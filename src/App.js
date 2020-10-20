@@ -1,5 +1,25 @@
 import React, { useEffect, useState } from 'react';
+import styled, { css } from 'styled-components';
 const shortid = require('shortid');
+
+const Container = styled.div`  
+  background-color: rgb(137, 188, 211);
+  width: 100%;
+  height: 100%;
+`;
+
+const ButtonAdd = styled.button`
+  justify-content: center;
+`;
+
+const Box = styled.div`
+  display: flex;
+  justify-content: space-around;
+`;
+
+const Table = styled.div`
+  text-align: center;
+`;
 
 function App() {
   const [tables, setTables] = useState([
@@ -27,27 +47,20 @@ function App() {
 
   const [input, setInput] = useState([
     {number: 0, text: ''},
-    {number: 10, text: ''},
+    {number: 2, text: ''},
     {number: 3, text: ''}
   ]);
 
-  // const test = (tableNumber) => {
-  //   const eTable0 = tables.filter((table) => table.number === tableNumber);
-  //   const eTable = eTable0[0];
-  //   console.log(eTable);
-  // }
-  // const getInputText = (tableNumber) => {
-  //   const eInput0 = input.filter((input) => input.number === tableNumber);
-  //   const eInput = eInput0[0];
-  //   return eInput.text;
-  // }; not use
+  const test = (tableNumber) => {
+    console.log(tables);
+    console.log(input);
+  }
 
   const handleOnChange = (event, tableNumber) => { //OK
     for(var i in input){
       if(input[i].number === tableNumber) {
         input[i].text = event.target.value;
-        return input[i].text;
-        // break;
+        break;
       };
     }
     setInput(input);  
@@ -67,10 +80,6 @@ function App() {
           tablesCopy[i].lists.push({text: input[i].text, id: shortid.generate()});
         };
       }
-    // tablesCopy[eTable.number] = {
-    //   ...tablesCopy[eTable.number],
-    //   lists: [...tables[eTable.number].lists, {text: input[eTable.number].text, id: shortid.generate()}]
-    // };
     setTables(tablesCopy);   
     for(var l in input){
       if(input[l].number === tableNumber) {
@@ -96,9 +105,6 @@ function App() {
   const editList = (tableNumber, listId) => {  //OK
     const eTable0 = tables.filter((table) => table.number === tableNumber);
     const eTable = eTable0[0];
-    // const eInput0 = input.filter((input) => input.number === tableNumber);
-    // const eInput = eInput0[0];
-    // console.log(document.getElementById(tableNumber).value)
     if(document.getElementById(tableNumber).value !== '') {
       alert('Please clear text on input!!!');
     } else {
@@ -111,12 +117,6 @@ function App() {
         break;
       };
     }
-    // input[]
-    // input[eTable.number].text = text1;
-    // setInput(input); // why if delete 3 next line can't render input[tableNumber].text? : finish function with reder??
-    // const tablesCopy = [...tables];
-    // tablesCopy[eTable.number].lists = tablesCopy[eTable.number].lists.filter((lists) => lists.id !== listId);
-    // setTables(tablesCopy);
     const tablesCopy = [...tables];
     for(var i in tablesCopy){
       if(tablesCopy[i].number === tableNumber) {
@@ -144,6 +144,7 @@ function App() {
   // const editTable = () => {
 
   // // };
+  
   let nextId = 20;
   function generateId() {
   const result = nextId;
@@ -152,10 +153,11 @@ function App() {
   }
 
   const addTable = () => {
+    var handleNum = generateId();
     const tablesCopy = [...tables];
     tablesCopy.push({
-        number: generateId(),
-        name: 'New Table',
+        number: handleNum,
+        name: `New Table ${handleNum}`,
         lists: []
         });
     // tables.push({
@@ -165,17 +167,16 @@ function App() {
     //   });
     setTables(tablesCopy);
     const inputCopy = [...input];
-    inputCopy.push({number: generateId(), text: ''});
+    inputCopy.push({number: handleNum, text: ''});
     setInput(inputCopy);
-    // console.log(x)
-    // console.log(tables)
+    
   }
 
   const renderEverthing = () => {return(
     tables.map((table) => 
-      <div key={table.number}>
+      <Table key={table.number}>
         {table.name}
-        {/* <button onClick={() => test(table.number)}>Edit</button> */}
+        <button onClick={() => test(table.number)}>Edit</button>
         <button onClick={() => deleteTable(table.number)} >X</button>
         {table.lists.map((list) => 
           <div key={list.id} >
@@ -188,15 +189,17 @@ function App() {
         )}
       <input id={table.number} defaultValue={''} onChange={e => handleOnChange(e, table.number)}></input>
       <button onClick={() => add(table.number)}>Add</button>
-      </div>
+      </Table>
       )
     )}
 
   return(
-    <div>
-      {renderEverthing()}
-    <button onClick={addTable}>Add Table</button>
-    </div>
+    <Container>
+      <Box>
+        {renderEverthing()}     
+      </Box>
+      <ButtonAdd onClick={addTable}>Add Table</ButtonAdd>
+    </Container>
   )
 
 };
