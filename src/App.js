@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react';
 import styled, { css } from 'styled-components';
 const shortid = require('shortid');
 
+const Title = styled.div`
+  background-color: black;
+`;
+
 const Container = styled.div`  
   background-color: rgb(137, 188, 211);
   width: 100%;
@@ -10,6 +14,7 @@ const Container = styled.div`
 
 const ButtonAdd = styled.button`
   justify-content: center;
+  
 `;
 
 const Box = styled.div`
@@ -51,10 +56,10 @@ function App() {
     {number: 3, text: ''}
   ]);
 
-  const test = (tableNumber) => {
-    console.log(tables);
-    console.log(input);
-  }
+  // const test = (tableNumber) => {
+  //   console.log(tables);
+  //   console.log(input);
+  // }
 
   const handleOnChange = (event, tableNumber) => { //OK
     for(var i in input){
@@ -172,11 +177,23 @@ function App() {
     
   }
 
+  const handleOnChangeTableName = (event, tableNumber) => {
+    const tablesCopy = [...tables]
+    for(var i in tablesCopy){
+      if(tablesCopy[i].number === tableNumber) {
+        tablesCopy[i].name = event.target.value;
+        break;
+      };
+    }
+    setTables(tablesCopy);  
+  };
+
   const renderEverthing = () => {return(
     tables.map((table) => 
       <Table key={table.number}>
         {table.name}
-        <button onClick={() => test(table.number)}>Edit</button>
+        <input  defaultValue={table.name} onChange={e => handleOnChangeTableName(e, table.number)} ></input>
+        {/* <button onClick={() => test(table.number)}>Edit</button> */}
         <button onClick={() => deleteTable(table.number)} >X</button>
         {table.lists.map((list) => 
           <div key={list.id} >
