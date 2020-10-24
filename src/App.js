@@ -4,17 +4,61 @@ const shortid = require('shortid');
 
 const Title = styled.div`
   background-color: black;
+  color: white;
+  text-align: center;
+  padding: 10px 0px;
+  font-size: 30px;
+`;
+
+const AddList = styled.div`
+  
+`;
+
+const Center = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const TitleTable = styled.input`
+  text-align: center;
+  font-size: 20px;
+  border: none;
+  background-color: transparent;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  appearance: none;
+  margin-bottom: 15px;
+  display: inline;
+`;
+
+const ButtonRed = styled.button`
+  background-color: #ff6a6a;
+`;
+
+const Button = styled.button`
+  background-color: #63d7fd;
+`;
+
+const List = styled.div`
+  justify-content: space-between;
+  display: flex;
+  margin-bottom: 8px;
 `;
 
 const Container = styled.div`  
   background-color: rgb(137, 188, 211);
   width: 100%;
-  height: 100%;
+  height: 100vh;
+  margin: 0px;
 `;
 
 const ButtonAdd = styled.button`
+  background-color: #63d7fd;
+  font-size: 20px;
+  margin: 30px 0px;
+  width: 130px;
   justify-content: center;
-  
 `;
 
 const Box = styled.div`
@@ -23,7 +67,12 @@ const Box = styled.div`
 `;
 
 const Table = styled.div`
+  background-color: wheat;
   text-align: center;
+  margin: 30px 10px;
+  padding: 10px 10px;
+  display: flex;
+  flex-direction: column;
 `;
 
 function App() {
@@ -191,31 +240,40 @@ function App() {
   const renderEverthing = () => {return(
     tables.map((table) => 
       <Table key={table.number}>
-        {table.name}
-        <input  defaultValue={table.name} onChange={e => handleOnChangeTableName(e, table.number)} ></input>
-        {/* <button onClick={() => test(table.number)}>Edit</button> */}
-        <button onClick={() => deleteTable(table.number)} >X</button>
+        <div>
+         {/* {table.name} */}
+          <TitleTable defaultValue={table.name} onChange={e => handleOnChangeTableName(e, table.number)} ></TitleTable>
+          {/* <button onClick={() => test(table.number)}>Edit</button> */}
+          <ButtonRed onClick={() => deleteTable(table.number)} >X</ButtonRed>
+        </div>
         {table.lists.map((list) => 
-          <div key={list.id} >
-          <div>
-             {list.text}
-          </div>
-          <button onClick={() => editList(table.number, list.id)}>Edit</button>
-          <button onClick={() => deleteList(table.number, list.id)} >X</button>
-          </div>
+          <List key={list.id} >          
+            <div>
+              • {list.text}
+            </div>
+            <div>
+              <Button onClick={() => editList(table.number, list.id)}>Edit</Button>
+              <ButtonRed onClick={() => deleteList(table.number, list.id)} >X</ButtonRed>
+            </div>
+          </List>
         )}
-      <input id={table.number} defaultValue={''} onChange={e => handleOnChange(e, table.number)}></input>
-      <button onClick={() => add(table.number)}>Add</button>
+        <AddList>
+          <input id={table.number} defaultValue={''} onChange={e => handleOnChange(e, table.number)}></input>
+          <Button onClick={() => add(table.number)}>Add</Button>
+        </AddList>
       </Table>
       )
     )}
 
   return(
     <Container>
+      <Title>To-Do List</Title>
       <Box>
         {renderEverthing()}     
       </Box>
-      <ButtonAdd onClick={addTable}>Add Table</ButtonAdd>
+      <Center>
+        <ButtonAdd onClick={addTable}>Add Table</ButtonAdd>
+      </Center>
     </Container>
   )
 
