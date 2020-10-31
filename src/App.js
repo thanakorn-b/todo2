@@ -223,7 +223,6 @@ function App() {
     const inputCopy = [...input];
     inputCopy.push({number: handleNum, text: ''});
     setInput(inputCopy);
-    
   }
 
   const handleOnChangeTableName = (event, tableNumber) => {
