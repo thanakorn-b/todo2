@@ -197,31 +197,25 @@ function App() {
 
   // const editTable = () => {
 
-  // // };
-  
-  let nextId = 20;
-  function generateId() {
-  const result = nextId;
-  nextId += 1;
-  return result;
-  }
+  // // }; 
 
   const addTable = () => {
-    var handleNum = generateId();
+    var num = 0;
+    for(var i in tables){
+      if(tables[i].number > num){
+        num = tables[i].number
+      }
+    }
+    num = num+1
     const tablesCopy = [...tables];
     tablesCopy.push({
-        number: handleNum,
-        name: `New Table ${handleNum}`,
+        number: num,
+        name: `New Table ${num}`,
         lists: []
         });
-    // tables.push({
-    //   number: eId,
-    //   name: 'New Table',
-    //   lists: []
-    //   });
     setTables(tablesCopy);
     const inputCopy = [...input];
-    inputCopy.push({number: handleNum, text: ''});
+    inputCopy.push({number: num, text: ''});
     setInput(inputCopy);
   }
 
